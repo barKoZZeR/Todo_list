@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список задач</title>
+</head>
+<body>
+    <h1>Список задач</h1>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <strong>{{ task.title }}</strong> - {{ task.description }}
+                {% if task.completed %}
+                    <span>(Выполнено)</span>
+                {% else %}
+                    <span>(Не выполнено)</span>
+                {% endif %}
+                <form action="{% url 'toggle_task_status' task.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">
+                        {% if task.completed %}
+                            Отметить как невыполненную
+                        {% else %}
+                            Отметить, как выполненную
+                        {% endif %}
+                    </button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_task' %}">Добавить новую задачу</a>
+</body>
+</html>
